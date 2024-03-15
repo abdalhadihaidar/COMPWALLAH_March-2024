@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Score Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        /* Modal CSS */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        /* Close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Credit Score Classification</h1>
+    <form action="/predict" method="post">
+        <label for="num-bank-accounts">Number of Bank Accounts:</label>
+        <input type="number" id="num-bank-accounts" name="num-bank-accounts" required><br><br>
+
+        <label for="num-credit-card">Number of Credit Cards:</label>
+        <input type="number" id="num-credit-card" name="num-credit-card" required><br><br>
+
+        <label for="interest-rate">Interest Rate:</label>
+        <input type="number" id="interest-rate" name="interest-rate" required><br><br>
+
+        <label for="num-of-loan">Number of Loans:</label>
+        <input type="number" id="num-of-loan" name="num-of-loan" required><br><br>
+
+        <label for="delay-from-due-date">Delay from Due Date:</label>
+        <input type="number" id="delay-from-due-date" name="delay-from-due-date" required><br><br>
+
+        <label for="num-of-delayed-payment">Number of Delayed Payments:</label>
+        <input type="number" id="num-of-delayed-payment" name="num-of-delayed-payment" required><br><br>
+
+        <label for="changed-credit-limit">Changed Credit Limit:</label>
+        <input type="number" id="changed-credit-limit" name="changed-credit-limit" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+    {% if prediction %}
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <div>Predicted Credit Score: {{ prediction }}</div>
+            <button id="okButton">OK</button>
+        </div>
+    </div>
+    {% endif %}
+    <script>
+        var prediction = "{{ prediction }}";
+        if (prediction) {
+            var modal = document.getElementById('myModal');
+            var okButton = document.getElementById('okButton');
+
+            modal.style.display = 'block';
+
+            okButton.onclick = function() {
+                modal.style.display = 'none';
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
